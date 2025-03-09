@@ -1,11 +1,11 @@
-import React from "react";
+import { Button } from "@/components/ui/button";
 
-export default function App() {
+function App() {
   return (
-    <div>
-      <button className="bg-green-300 hover:bg-green-500/80 transition text-xl px-5 py-3 rounded-lg cursor-pointer">
-        Check Tailwind!
-      </button>
+    <div className="flex flex-col items-center justify-center min-h-svh">
+      <Button>Click me</Button>
     </div>
   );
 }
+
+export default App;
