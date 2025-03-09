@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -13,10 +14,17 @@ function App() {
     }
   }, [theme]);
 
-  // زر لتبديل الثيم
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
+
+  const { data } = useQuery({
+    queryKey: ["test"],
+    queryFn: () =>
+      fetch("https://dummyjson.com/users?limit=0").then((res) => res.json()),
+  });
+
+  console.log(data)
 
   return (
     <div className="flex flex-col items-center justify-center min-h-svh">
