@@ -2,7 +2,6 @@
   "users_directory": "Users Directory",
   "error_loading_data": "Error loading data",
   "view_profile": "View Profile",
-  "years_old": "years old",
   "logo": "Connectify",
   "login": "Login",
   "logout": "Logout",
@@ -21,5 +20,13 @@
   "go_back": "Go Back",
   "view_author": "View Author",
   "no_posts_found": "No posts found",
-  "user_has_no_posts": " hasn't published any posts yet."
+  "user_has_no_posts": " hasn't published any posts yet.",
+  "admin": "Administrator",
+  "personal_info": "Personal Information",
+  "years_old": "years old",
+  "blood_group": "Blood Group",
+  "height": "Height",
+  "weight": "Weight",
+  "location": "Location",
+  "work": "Work"
 }

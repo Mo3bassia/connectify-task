@@ -11,11 +11,24 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ThumbsUp, ThumbsDown, Eye, ArrowLeft } from "lucide-react";
+import {
+  ThumbsUp,
+  ThumbsDown,
+  Eye,
+  ArrowLeft,
+  Mail,
+  Phone,
+  Building,
+  MapPin,
+  Briefcase,
+  Calendar,
+  GraduationCap,
+} from "lucide-react";
 import Loader from "../components/custom/Loader.jsx";
 import i18n from "@/i18n.js";
 import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 export default function UserDetails() {
   const navigate = useNavigate();
@@ -32,20 +45,12 @@ export default function UserDetails() {
       fetch(`https://dummyjson.com/users/${id}`).then((res) => res.json()),
   });
 
-  console.log(user);
-  console.log(posts);
-
   if (isLoading || isUserLoading) {
     return <Loader />;
   }
 
   return (
     <div className="container mx-auto p-6">
-      <h2 className="text-2xl font-bold mb-6">
-        {i18n.language === "en"
-          ? `${user.firstName}'s${t("user_posts_title")}`
-          : `منشورات ${user.firstName}`}
-      </h2>
       <Button
         variant="ghost"
         className={`mb-6 flex items-center gap-1 cursor-pointer ${
@@ -59,6 +64,134 @@ export default function UserDetails() {
         />
         <span>{t("back")}</span>
       </Button>
+      <div className="mb-10">
+        <Card className="border shadow-sm overflow-hidden">
+          <div className="bg-gradient-to-r from-primary/10 to-primary/5 p-6">
+            <div className="flex flex-col md:flex-row gap-6 items-center md:items-start justify-around">
+              <Avatar className="h-28 w-28 border-4 border-background shadow-md">
+                <AvatarImage
+                  src={user.image}
+                  alt={`${user.firstName} ${user.lastName}`}
+                />
+                <AvatarFallback className="text-2xl">
+                  {user.firstName?.charAt(0)}
+                  {user.lastName?.charAt(0)}
+                </AvatarFallback>
+              </Avatar>
+
+              <div className="space-y-2 text-center md:text-left">
+                <div className="space-y-0.5">
+                  <h2 className="text-2xl font-bold">
+                    {user.firstName} {user.lastName}
+                  </h2>
+                  <p className="text-muted-foreground">@{user.username}</p>
+                </div>
+
+                {user.role && (
+                  <Badge
+                    className="mx-auto md:mx-0"
+                    variant={user.role === "admin" ? "default" : "outline"}
+                  >
+                    {user.role === "admin" ? t("admin") : user.role}
+                  </Badge>
+                )}
+
+                <div className="flex flex-wrap justify-center md:justify-start gap-3 mt-3">
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <Mail size={14} />
+                    <span>{user.email}</span>
+                  </div>
+                  <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                    <Phone size={14} />
+                    <span>{user.phone}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <CardContent className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-6">
+            <div>
+              <h3 className="font-semibold text-lg mb-3">
+                {t("personal_info")}
+              </h3>
+              <div className="space-y-2">
+                <div className="flex items-center gap-2">
+                  <Calendar size={16} className="text-muted-foreground" />
+                  <span className="text-sm">
+                    {new Date(user.birthDate).toLocaleDateString()} ({user.age}{" "}
+                    {t("years_old")})
+                  </span>
+                </div>
+                {user.bloodGroup && (
+                  <div className="flex items-center gap-2">
+                    <span className="text-red-500 font-bold">●</span>
+                    <span className="text-sm">
+                      {t("blood_group")}: {user.bloodGroup}
+                    </span>
+                  </div>
+                )}
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-sm">{t("height")}:</span>
+                  <span className="text-sm">{user.height} cm</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <span className="font-medium text-sm">{t("weight")}:</span>
+                  <span className="text-sm">{user.weight} kg</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-lg mb-3">{t("location")}</h3>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <MapPin size={16} className="text-muted-foreground mt-0.5" />
+                  <span className="text-sm">
+                    {user.address.address}
+                    <br />
+                    {user.address.city}, {user.address.state}{" "}
+                    {user.address.stateCode}
+                    <br />
+                    {user.address.postalCode}, {user.address.country}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <h3 className="font-semibold text-lg mb-3">{t("work")}</h3>
+              <div className="space-y-2">
+                <div className="flex items-start gap-2">
+                  <Building
+                    size={16}
+                    className="text-muted-foreground mt-0.5"
+                  />
+                  <div>
+                    <p className="text-sm font-medium">{user.company.name}</p>
+                    <p className="text-xs text-muted-foreground">
+                      {user.company.department}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Briefcase size={16} className="text-muted-foreground" />
+                  <span className="text-sm">{user.company.title}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <GraduationCap size={16} className="text-muted-foreground" />
+                  <span className="text-sm">{user.university}</span>
+                </div>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </div>
+      <h2 className="text-2xl font-bold mb-6">
+        {i18n.language === "en"
+          ? `${user.firstName}'s${t("user_posts_title")}`
+          : `منشورات ${user.firstName}`}
+      </h2>
 
       {posts?.posts?.length > 0 ? (
         <div

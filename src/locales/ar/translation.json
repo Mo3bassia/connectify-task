@@ -21,5 +21,12 @@
   "go_back": "العودة",
   "view_author": "عرض الكاتب",
   "no_posts_found": "لا توجد منشورات",
-  "user_has_no_posts": "لم يقم بنشر أي منشورات حتى الآن."
+  "user_has_no_posts": "لم يقم بنشر أي منشورات حتى الآن.",
+  "admin": "مدير",
+  "personal_info": "معلومات شخصية",
+  "blood_group": "فصيلة الدم",
+  "height": "الطول",
+  "weight": "الوزن",
+  "location": "الموقع",
+  "work": "العمل"
 }
