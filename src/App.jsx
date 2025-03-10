@@ -2,15 +2,18 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useLocalStorage } from "./hooks/useLocalStorage.js";
 
-import Login from "./pages/login.jsx";
 import User from "./pages/User.jsx";
 import UserDetails from "./pages/UserDetails.jsx";
 import Post from "./pages/Post.jsx";
 import PostDetails from "./pages/PostDetails.jsx";
+import Navbar from "./components/custom/Navbar.jsx";
+import { Toaster } from "@/components/ui/sonner";
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
+  // const [currentUser, setCurrentUser] = useLocalStorage("currentUser", {});
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
@@ -25,20 +28,22 @@ function App() {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
-  const { data } = useQuery({
+  const { data: users } = useQuery({
     queryKey: ["test"],
     queryFn: () =>
       fetch("https://dummyjson.com/users?limit=0").then((res) => res.json()),
   });
 
-  console.log(data);
+  console.log(users);
 
   return (
-    <div className="">
+    <div className="font-[Manrope]">
+      <Navbar toggleTheme={toggleTheme} theme={theme} />
+      <Toaster />
+
       <BrowserRouter>
         <Routes>
           <Route index element={<div>Home</div>} />
-          <Route path="login" element={<Login />} />
           <Route path="user" element={<User />}>
             <Route path=":id" element={<UserDetails />} />
           </Route>
@@ -47,7 +52,6 @@ function App() {
           </Route>
         </Routes>
       </BrowserRouter>
-      <Button onClick={toggleTheme}>Change theme!</Button>
     </div>
   );
 }
