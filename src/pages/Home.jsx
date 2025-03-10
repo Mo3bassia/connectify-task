@@ -10,24 +10,24 @@ export default function Home() {
   const { t } = useTranslation();
 
   const {
-    data: users,
-    isLoading,
-    error,
+    data: peopleList,
+    isLoading: peopleLoading,
+    error: fetchError,
   } = useQuery({
-    queryKey: ["users"],
+    queryKey: ["peopleDirectory"],
     queryFn: () =>
       fetch("https://dummyjson.com/users?limit=0")
         .then((res) => res.json())
         .then((data) => data.users),
   });
 
-  if (error) {
+  if (fetchError) {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh]">
         <h2 className="text-xl font-semibold text-red-500">
           {t("error_loading_data")}
         </h2>
-        <p className="text-muted-foreground">{error.message}</p>
+        <p className="text-muted-foreground">{fetchError.message}</p>
       </div>
     );
   }
@@ -61,11 +61,11 @@ export default function Home() {
         dir="ltr"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
-        {isLoading
+        {peopleLoading
           ? Array(8)
               .fill(null)
-              .map((_, index) => (
-                <div key={index} className="rounded-lg border overflow-hidden">
+              .map((_, idx) => (
+                <div key={idx} className="rounded-lg border overflow-hidden">
                   <Skeleton className="h-24" />
                   <div className="p-4">
                     <Skeleton className="h-6 w-3/4 mb-2" />
@@ -81,7 +81,9 @@ export default function Home() {
                   </div>
                 </div>
               ))
-          : users?.map((user) => <UserCard key={user.id} user={user} />)}
+          : peopleList?.map((person) => (
+              <UserCard key={person.id} user={person} />
+            ))}
       </div>
     </div>
   );

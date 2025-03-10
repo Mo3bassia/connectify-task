@@ -29,26 +29,26 @@ import { Link } from "react-router-dom";
 
 export default function Navbar({ toggleTheme, theme }) {
   const { t, i18n } = useTranslation();
-  const [isError, setIsError] = useState(false);
-  const [logined, setLogined] = useState(false);
-  const [currentUser, setCurrentUser] = useState(null);
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
+  const [hasError, setHasError] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [activeUser, setActiveUser] = useState(null);
+  const [loginId, setLoginId] = useState("");
+  const [loginPass, setLoginPass] = useState("");
 
-  const { mutate: mutateLogin, isSuccess } = useMutation({
-    mutationKey: ["currentUser"],
-    mutationFn: (dataLogin) =>
+  const { mutate: attemptLogin, isSuccess } = useMutation({
+    mutationKey: ["authUser"],
+    mutationFn: (authData) =>
       fetch("https://dummyjson.com/auth/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataLogin),
+        body: JSON.stringify(authData),
       }).then((res) => res.json()),
     onSuccess: (data) => {
       if (data.username) {
         localStorage.setItem("currentUser", JSON.stringify(data));
-        setCurrentUser(data);
-        setLogined(true);
-        setIsError(false);
+        setActiveUser(data);
+        setIsAuthenticated(true);
+        setHasError(false);
         toast(t("login_success_title"), {
           description: t("login_success_message"),
           duration: 3000,
@@ -56,7 +56,7 @@ export default function Navbar({ toggleTheme, theme }) {
         });
       } else {
         console.log("error");
-        setIsError(true);
+        setHasError(true);
       }
     },
     onError: (error) => {
@@ -66,10 +66,20 @@ export default function Navbar({ toggleTheme, theme }) {
 
   useEffect(() => {
     if (localStorage.getItem("currentUser")) {
-      setCurrentUser(JSON.parse(localStorage.getItem("currentUser")));
-      setLogined(true);
+      setActiveUser(JSON.parse(localStorage.getItem("currentUser")));
+      setIsAuthenticated(true);
     }
   }, []);
+
+  const handleLogout = () => {
+    localStorage.removeItem("currentUser");
+    setIsAuthenticated(false);
+    setActiveUser(null);
+    toast(t("logout_success"), {
+      type: "info",
+      duration: 3000,
+    });
+  };
 
   return (
     <nav className="border-b shadow-sm bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
@@ -155,7 +165,7 @@ export default function Navbar({ toggleTheme, theme }) {
             </svg>
           </Button>
 
-          {!currentUser && (
+          {!activeUser && (
             <Dialog>
               <DialogTrigger asChild>
                 <Button
@@ -194,8 +204,8 @@ export default function Navbar({ toggleTheme, theme }) {
                     </Label>
                     <Input
                       id="username"
-                      value={username}
-                      onChange={(e) => setUsername(e.target.value)}
+                      value={loginId}
+                      onChange={(e) => setLoginId(e.target.value)}
                       className="col-span-3"
                     />
                   </div>
@@ -206,14 +216,14 @@ export default function Navbar({ toggleTheme, theme }) {
                     </Label>
                     <Input
                       id="password"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
+                      value={loginPass}
+                      onChange={(e) => setLoginPass(e.target.value)}
                       type="password"
                       className="col-span-3"
                     />
                   </div>
                 </div>
-                {isError && (
+                {hasError && (
                   <div className="text-destructive text-sm font-medium text-center my-2">
                     {t("login_error_message")}
                   </div>
@@ -222,7 +232,7 @@ export default function Navbar({ toggleTheme, theme }) {
                   <Button
                     className={"cursor-pointer"}
                     onClick={() =>
-                      mutateLogin({ username: username, password: password })
+                      attemptLogin({ username: loginId, password: loginPass })
                     }
                   >
                     <svg
@@ -246,7 +256,7 @@ export default function Navbar({ toggleTheme, theme }) {
               </DialogContent>
             </Dialog>
           )}
-          {currentUser && (
+          {activeUser && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -255,12 +265,12 @@ export default function Navbar({ toggleTheme, theme }) {
                 >
                   <Avatar>
                     <AvatarImage
-                      src={currentUser.image}
-                      alt={currentUser.username}
+                      src={activeUser.image}
+                      alt={activeUser.username}
                     />
                     <AvatarFallback>
-                      {currentUser.firstName?.charAt(0)}
-                      {currentUser.lastName?.charAt(0)}
+                      {activeUser.firstName?.charAt(0)}
+                      {activeUser.lastName?.charAt(0)}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -269,25 +279,17 @@ export default function Navbar({ toggleTheme, theme }) {
                 <DropdownMenuLabel>
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium">
-                      {currentUser.firstName} {currentUser.lastName}
+                      {activeUser.firstName} {activeUser.lastName}
                     </p>
                     <p className="text-xs text-muted-foreground">
-                      @{currentUser.username}
+                      @{activeUser.username}
                     </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={() => {
-                    localStorage.removeItem("currentUser");
-                    setLogined(false);
-                    setCurrentUser(null);
-                    toast(t("logout_success"), {
-                      type: "info",
-                      duration: 3000,
-                    });
-                  }}
+                  onClick={handleLogout}
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
