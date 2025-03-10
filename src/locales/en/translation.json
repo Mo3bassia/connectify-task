@@ -79,5 +79,20 @@
   "apply_filter": "Apply Filter",
   "try_different_filter": "Try a different filter option",
   "loading_users": "Loading users...",
-  "error_loading_users": "Error loading users"
+  "error_loading_users": "Error loading users",
+  "sort_default": "Default order",
+  "firstName_asc": "First Name (A-Z)",
+  "firstName_desc": "First Name (Z-A)",
+  "lastName_asc": "Last Name (A-Z)",
+  "lastName_desc": "Last Name (Z-A)",
+  "age_asc": "Age (Low to High)",
+  "age_desc": "Age (High to Low)",
+  "email_asc": "Email (A-Z)",
+  "email_desc": "Email (Z-A)",
+  "username_asc": "Username (A-Z)",
+  "username_desc": "Username (Z-A)",
+  "height_asc": "Height (Low to High)",
+  "height_desc": "Height (High to Low)",
+  "weight_asc": "Weight (Low to High)",
+  "weight_desc": "Weight (High to Low)"
 }
