@@ -6,6 +6,70 @@ import { useTranslation } from "react-i18next";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 
+export const filterOptions = {
+  eyeColor: [
+    { value: "amber", label: "Amber" },
+    { value: "blue", label: "Blue" },
+    { value: "brown", label: "Brown" },
+    { value: "gray", label: "Gray" },
+    { value: "green", label: "Green" },
+    { value: "hazel", label: "Hazel" },
+  ],
+
+  hairColor: [
+    { value: "auburn", label: "Auburn" },
+    { value: "black", label: "Black" },
+    { value: "blonde", label: "Blonde" },
+    { value: "brown", label: "Brown" },
+    { value: "chestnut", label: "Chestnut" },
+    { value: "gray", label: "Gray" },
+    { value: "red", label: "Red" },
+    { value: "silver", label: "Silver" },
+    { value: "white", label: "White" },
+  ],
+
+  hairType: [
+    { value: "curly", label: "Curly" },
+    { value: "straight", label: "Straight" },
+    { value: "strands", label: "Strands" },
+    { value: "very curly", label: "Very Curly" },
+    { value: "wavy", label: "Wavy" },
+  ],
+
+  country: [
+    { value: "Australia", label: "Australia" },
+    { value: "Canada", label: "Canada" },
+    { value: "France", label: "France" },
+    { value: "Germany", label: "Germany" },
+    { value: "India", label: "India" },
+    { value: "Japan", label: "Japan" },
+    { value: "United Kingdom", label: "United Kingdom" },
+    { value: "United States", label: "United States" },
+  ],
+
+  department: [
+    { value: "accounting", label: "Accounting" },
+    { value: "business development", label: "Business Development" },
+    { value: "engineering", label: "Engineering" },
+    { value: "human resources", label: "Human Resources" },
+    { value: "legal", label: "Legal" },
+    { value: "marketing", label: "Marketing" },
+    { value: "product management", label: "Product Management" },
+    { value: "research and development", label: "Research and Development" },
+    { value: "sales", label: "Sales" },
+    { value: "services", label: "Services" },
+    { value: "support", label: "Support" },
+    { value: "training", label: "Training" },
+  ],
+
+  role: [
+    { value: "admin", label: "Admin" },
+    { value: "user", label: "User" },
+    { value: "guest", label: "Guest" },
+    { value: "moderator", label: "Moderator" },
+  ],
+};
+
 export default function Home() {
   const { t } = useTranslation();
 
