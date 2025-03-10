@@ -1,11 +1,16 @@
 {
+  "users_directory": "Users Directory",
+  "error_loading_data": "Error loading data",
+  "view_profile": "View Profile",
+  "years_old": "years old",
   "logo": "Connectify",
   "login": "Login",
   "logout": "Logout",
-  "login_description": "Login to your account to access all features.",
   "username": "Username",
   "password": "Password",
-  "login_success_title": "Login Successful",
-  "login_success_message": "Welcome back! You're now signed in.",
-  "login_error_message": "Invalid username or password. Please try again."
+  "login_description": "Enter your credentials to access your account",
+  "login_error_message": "Username or password is incorrect",
+  "login_success_title": "Welcome back!",
+  "login_success_message": "You have successfully logged in",
+  "logout_success": "You have been logged out"
 }

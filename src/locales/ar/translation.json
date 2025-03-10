@@ -1,11 +1,16 @@
 {
-  "logo": "وصّل",
+  "users_directory": "دليل المستخدمين",
+  "error_loading_data": "خطأ في تحميل البيانات",
+  "view_profile": "عرض الملف الشخصي",
+  "years_old": "سنة",
+  "logo": "وصَّل",
   "login": "تسجيل الدخول",
   "logout": "تسجيل الخروج",
-  "login_description": "سجل الدخول إلى حسابك للوصول إلى جميع المميزات.",
-  "username": "المستخدم",
+  "username": "اسم المستخدم",
   "password": "كلمة المرور",
-  "login_success_title": "تم تسجيل الدخول بنجاح",
-  "login_success_message": "مرحبًا بعودتك! تم تسجيل دخولك.",
-  "login_error_message": "اسم المستخدم أو كلمة المرور غير صحيحة. يرجى المحاولة مرة أخرى."
+  "login_description": "أدخل بيانات الاعتماد الخاصة بك للوصول إلى حسابك",
+  "login_error_message": "اسم المستخدم أو كلمة المرور غير صحيحة",
+  "login_success_title": "مرحبًا بعودتك!",
+  "login_success_message": "لقد قمت بتسجيل الدخول بنجاح",
+  "logout_success": "تم تسجيل خروجك بنجاح"
 }

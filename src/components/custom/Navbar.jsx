@@ -13,6 +13,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
@@ -26,34 +34,6 @@ export default function Navbar({ toggleTheme, theme }) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  //   const { mutateRefresh } = useMutation({
-  //     mutationKey: ["refresh"],
-  //     mutationFn: () =>
-  //       fetch("https://dummyjson.com/auth/refresh", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({
-  //           refreshToken: `${currentUser?.refreshToken}`,
-  //         }),
-  //       }).then((res) => res.json()),
-
-  //     onSuccess: (data) => {
-  //       if (data.accessToken) {
-  //         localStorage.setItem("currentUser", JSON.stringify(data));
-  //         setCurrentUser(data);
-  //         setLogined(true);
-  //         setIsError(false);
-  //         console.log("refreshed");
-  //       } else {
-  //         console.log("error");
-  //         setIsError(true);
-  //       }
-  //     },
-  //     onError: (error) => {
-  //       console.log(error);
-  //     },
-  //   });
-
   const { mutate: mutateLogin, isSuccess } = useMutation({
     mutationKey: ["currentUser"],
     mutationFn: (dataLogin) =>
@@ -62,8 +42,6 @@ export default function Navbar({ toggleTheme, theme }) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(dataLogin),
       }).then((res) => res.json()),
-    // staleTime: 1000 * 60 * 60,
-    // cacheTime: 1000 * 60 * 60 * 24,
     onSuccess: (data) => {
       if (data.username) {
         localStorage.setItem("currentUser", JSON.stringify(data));
@@ -92,34 +70,8 @@ export default function Navbar({ toggleTheme, theme }) {
     }
   }, []);
 
-  //   function testUser() {
-  //     if (currentUser) {
-  //       console.log(currentUser);
-  //     }
-  //   }
-
-  //   useEffect(() => {
-  //     if (isSuccess) {
-  //       localStorage.setItem("currentUser", JSON.stringify(currentUser));
-  //     }
-  //   }, [isSuccess]);
-
-  //   const { data: refreshToken } = useQuery({
-  //     queryKey: ["refresh"],
-  //     queryFn: () =>
-  //       fetch("https://dummyjson.com/auth/refresh", {
-  //         method: "POST",
-  //         headers: { "Content-Type": "application/json" },
-  //         body: JSON.stringify({
-  //           refreshToken: `${currentUser?.refreshToken}`,
-  //           expiresInMins: 30,
-  //         }),
-  //       }).then((res) => res.json()),
-  //     enabled: false,
-  //   });
-
   return (
-    <nav className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
+    <nav className="border-b shadow-sm bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50">
       <div className="container mx-auto px-4 py-3 flex justify-between items-center">
         <div className="flex items-center gap-2">
           <svg
@@ -140,6 +92,7 @@ export default function Navbar({ toggleTheme, theme }) {
             size="icon"
             className="rounded-full"
             onClick={toggleTheme}
+            aria-label="Toggle theme"
           >
             {theme == "dark" ? (
               <svg
@@ -181,6 +134,7 @@ export default function Navbar({ toggleTheme, theme }) {
             variant="ghost"
             size="icon"
             className="rounded-full"
+            aria-label="Change language"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -198,7 +152,7 @@ export default function Navbar({ toggleTheme, theme }) {
             </svg>
           </Button>
 
-          <Separator orientation="vertical" />
+          <Separator className="h-6 mx-1" orientation="vertical" />
 
           {!currentUser && (
             <Dialog>
@@ -292,24 +246,68 @@ export default function Navbar({ toggleTheme, theme }) {
             </Dialog>
           )}
           {currentUser && (
-            <div className="flex items-center space-x-4">
-              <Avatar>
-                <AvatarImage src={currentUser.image} />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <h4 className="hidden md:flex">{currentUser.username}</h4>
-              <Button
-                variant="outline"
-                className="hidden md:flex cursor-pointer hover:bg-red-50 text-red-600 border-red-200 hover:border-red-300 dark:hover:bg-red-950 dark:text-red-400 dark:border-red-800 dark:hover:border-red-700"
-                onClick={() => {
-                  localStorage.removeItem("currentUser");
-                  setLogined(false);
-                  setCurrentUser(null);
-                }}
-              >
-                {t("logout")}
-              </Button>
-            </div>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  className="relative rounded-full h-9 w-9 p-0 border"
+                >
+                  <Avatar>
+                    <AvatarImage
+                      src={currentUser.image}
+                      alt={currentUser.username}
+                    />
+                    <AvatarFallback>
+                      {currentUser.firstName?.charAt(0)}
+                      {currentUser.lastName?.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-56">
+                <DropdownMenuLabel>
+                  <div className="flex flex-col space-y-1">
+                    <p className="text-sm font-medium">
+                      {currentUser.firstName} {currentUser.lastName}
+                    </p>
+                    <p className="text-xs text-muted-foreground">
+                      @{currentUser.username}
+                    </p>
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer"
+                  onClick={() => {
+                    localStorage.removeItem("currentUser");
+                    setLogined(false);
+                    setCurrentUser(null);
+                    toast(t("logout_success"), {
+                      type: "info",
+                      duration: 3000,
+                    });
+                  }}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="mr-2 h-4 w-4"
+                  >
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                  </svg>
+                  {t("logout")}
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
           )}
         </div>
       </div>
