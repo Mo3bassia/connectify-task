@@ -12,5 +12,12 @@
   "login_error_message": "Username or password is incorrect",
   "login_success_title": "Welcome back!",
   "login_success_message": "You have successfully logged in",
-  "logout_success": "You have been logged out"
+  "logout_success": "You have been logged out",
+  "user_posts_title": " Posts",
+  "back": "Back",
+  "min_read": "min read",
+  "views": "views",
+  "error_loading_post": "Error Loading Post",
+  "go_back": "Go Back",
+  "view_author": "View Author"
 }

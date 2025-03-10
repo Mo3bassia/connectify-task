@@ -12,5 +12,12 @@
   "login_error_message": "اسم المستخدم أو كلمة المرور غير صحيحة",
   "login_success_title": "مرحبًا بعودتك!",
   "login_success_message": "لقد قمت بتسجيل الدخول بنجاح",
-  "logout_success": "تم تسجيل خروجك بنجاح"
+  "logout_success": "تم تسجيل خروجك بنجاح",
+  "user_posts_title": "منشورات",
+  "back": "رجوع",
+  "min_read": "دقائق قراءة",
+  "views": "مشاهدة",
+  "error_loading_post": "خطأ في تحميل المنشور",
+  "go_back": "العودة",
+  "view_author": "عرض الكاتب"
 }
