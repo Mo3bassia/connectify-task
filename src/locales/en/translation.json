@@ -1,0 +1,11 @@
+{
+  "logo": "Connectify",
+  "login": "Login",
+  "logout": "Logout",
+  "login_description": "Login to your account to access all features.",
+  "username": "Username",
+  "password": "Password",
+  "login_success_title": "Login Successful",
+  "login_success_message": "Welcome back! You're now signed in.",
+  "login_error_message": "Invalid username or password. Please try again."
+}
