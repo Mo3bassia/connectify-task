@@ -28,5 +28,9 @@
   "height": "Height",
   "weight": "Weight",
   "location": "Location",
-  "work": "Work"
+  "work": "Work",
+  "search": "Search",
+  "page_not_found": "Page not found",
+  "page_not_found_message": "Sorry, the page you're looking for doesn't exist or has been moved. Please check the URL or navigate back to the homepage.",
+  "back_to_home": "Back to Homepage"
 }

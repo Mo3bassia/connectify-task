@@ -6,9 +6,11 @@ import Home from "./pages/Home.jsx";
 import User from "./pages/User.jsx";
 import UserDetails from "./pages/UserDetails.jsx";
 import Post from "./pages/Post.jsx";
+import NotFound from "./pages/NotFound.jsx";
 import PostDetails from "./pages/PostDetails.jsx";
 import Navbar from "./components/custom/Navbar.jsx";
 import { Toaster } from "@/components/ui/sonner";
+import Search from "./pages/Search.jsx";
 
 function App() {
   const [theme, setTheme] = useState(localStorage.getItem("theme") || "light");
@@ -61,6 +63,8 @@ function App() {
             <Route path="post" element={<Post />}>
               <Route path=":id" element={<PostDetails />} />
             </Route>
+            <Route path="search" element={<Search />} />
+            <Route path="*" element={<NotFound />} />
           </Routes>
         </div>
       </div>
