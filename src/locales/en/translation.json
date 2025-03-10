@@ -19,5 +19,7 @@
   "views": "views",
   "error_loading_post": "Error Loading Post",
   "go_back": "Go Back",
-  "view_author": "View Author"
+  "view_author": "View Author",
+  "no_posts_found": "No posts found",
+  "user_has_no_posts": " hasn't published any posts yet."
 }

@@ -133,9 +133,11 @@ export default function UserDetails() {
               <path d="M8 14h4"></path>
             </svg>
           </div>
-          <h3 className="text-lg font-semibold mb-1">No posts found</h3>
+          <h3 className="text-lg font-semibold mb-1">{t("no_posts_found")}</h3>
           <p className="text-muted-foreground text-center max-w-md">
-            {user.firstName} hasn't published any posts yet.
+            {i18n.language === "en"
+              ? `${user.firstName} ${t("user_has_no_posts")}`
+              : `${user.firstName} ${t("user_has_no_posts")}`}
           </p>
         </div>
       )}

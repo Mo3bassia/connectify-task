@@ -19,5 +19,7 @@
   "views": "مشاهدة",
   "error_loading_post": "خطأ في تحميل المنشور",
   "go_back": "العودة",
-  "view_author": "عرض الكاتب"
+  "view_author": "عرض الكاتب",
+  "no_posts_found": "لا توجد منشورات",
+  "user_has_no_posts": "لم يقم بنشر أي منشورات حتى الآن."
 }
