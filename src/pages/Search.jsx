@@ -32,13 +32,11 @@ export default function Search() {
   const [processedKeyword, setProcessedKeyword] = useState("");
   const [activeTab, setActiveTab] = useState("search");
 
-  // Filter state
   const [filterType, setFilterType] = useState("eyeColor");
   const [filterValue, setFilterValue] = useState("");
   const [isFilterApplied, setIsFilterApplied] = useState(false);
   const [filteredUsers, setFilteredUsers] = useState([]);
 
-  // Debounce search input
   useEffect(() => {
     const waitTimer = setTimeout(() => {
       setProcessedKeyword(keyword);
@@ -47,7 +45,6 @@ export default function Search() {
     return () => clearTimeout(waitTimer);
   }, [keyword]);
 
-  // Search query
   const {
     data: searchResult,
     isLoading: isSearching,
@@ -58,7 +55,6 @@ export default function Search() {
       fetch("https://dummyjson.com/users/search?q=" + processedKeyword)
         .then((res) => res.json())
         .then((data) => {
-          // Apply gender filter if needed
           if (gender !== "all") {
             return {
               ...data,
@@ -70,7 +66,6 @@ export default function Search() {
     enabled: processedKeyword.length > 0 && activeTab === "search",
   });
 
-  // Filter query
   const {
     data: allUsers,
     isLoading: isLoadingUsers,
@@ -157,7 +152,6 @@ export default function Search() {
     setFilteredUsers([]);
   };
 
-  // Get options for the selected filter type
   const getFilterOptions = () => {
     return filterOptions[filterType] || [];
   };
@@ -456,7 +450,6 @@ export default function Search() {
               </Card>
             )}
 
-            {/* Results section */}
             {isFilterApplied && (
               <div className="mt-6">
                 {filteredUsers.length === 0 ? (

@@ -94,5 +94,7 @@
   "height_asc": "Height (Low to High)",
   "height_desc": "Height (High to Low)",
   "weight_asc": "Weight (Low to High)",
-  "weight_desc": "Weight (High to Low)"
+  "weight_desc": "Weight (High to Low)",
+  "loading_more_users": "Loading more users...",
+  "end_of_users_list": "You've reached the end of the list"
 }

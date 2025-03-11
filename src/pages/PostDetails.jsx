@@ -50,7 +50,6 @@ export default function PostDetails() {
     enabled: !!post?.userId,
   });
 
-  // Calculate reading time (rough estimate)
   const getReadingTime = (text) => {
     const wordsPerMinute = 200;
     const words = text?.split(/\s+/)?.length || 0;

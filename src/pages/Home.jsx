@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import React, { useState, useRef, useEffect } from "react";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import UserCard from "@/components/custom/UserCard";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslation } from "react-i18next";
@@ -146,43 +146,72 @@ export const sortOptions = [
 
 export default function Home() {
   const { t } = useTranslation();
-  const [sortBy, setSortBy] = useState(""); // Default: no sorting
+  const [sortBy, setSortBy] = useState("");
+  const loadMoreRef = useRef(null);
 
   const {
-    data: peopleList,
-    isLoading: peopleLoading,
+    data,
     error: fetchError,
-    refetch,
-  } = useQuery({
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+  } = useInfiniteQuery({
     queryKey: ["peopleDirectory", sortBy],
-    queryFn: async () => {
-      let url = "https://dummyjson.com/users?limit=0";
+    queryFn: async ({ pageParam = 0 }) => {
+      let url = `https://dummyjson.com/users?limit=12&skip=${pageParam}`;
 
-      // Add sorting parameters if selected
       if (sortBy) {
         const selectedSort = sortOptions.find(
           (option) => option.name === sortBy
         );
         if (selectedSort) {
-          url = `https://dummyjson.com/users?sortBy=${selectedSort.value}&order=${selectedSort.order}&limit=0`;
+          url = `https://dummyjson.com/users?sortBy=${selectedSort.value}&order=${selectedSort.order}&limit=12&skip=${pageParam}`;
         }
       }
 
-      return fetch(url)
-        .then((res) => res.json())
-        .then((data) => data.users);
+      const response = await fetch(url);
+      const data = await response.json();
+      return data;
+    },
+    getNextPageParam: (lastPage, pages) => {
+      const skip = pages.length * 12;
+      return skip < lastPage.total ? skip : undefined;
     },
   });
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
+          fetchNextPage();
+        }
+      },
+      {
+        rootMargin: "0px 0px 30px 0px",
+        threshold: 0.1,
+      }
+    );
+
+    if (loadMoreRef.current) {
+      observer.observe(loadMoreRef.current);
+    }
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   const handleSort = (sortName) => {
     setSortBy(sortName);
   };
 
-  // Get the current sort option label
   const getCurrentSortLabel = () => {
     const currentSort = sortOptions.find((option) => option.name === sortBy);
     return currentSort ? currentSort.label : t("sort_default");
   };
+
+  const peopleList = data?.pages.flatMap((page) => page.users) || [];
 
   if (fetchError) {
     return (
@@ -273,7 +302,7 @@ export default function Home() {
         dir="ltr"
         className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
       >
-        {peopleLoading
+        {isLoading
           ? Array(8)
               .fill(null)
               .map((_, idx) => (
@@ -293,10 +322,29 @@ export default function Home() {
                   </div>
                 </div>
               ))
-          : peopleList?.map((person) => (
+          : peopleList.map((person) => (
               <UserCard key={person.id} user={person} />
             ))}
       </div>
+
+      <div ref={loadMoreRef} className="h-4 w-full my-4">
+        {isFetchingNextPage && (
+          <div className="flex justify-center py-4">
+            <div className="flex flex-col items-center gap-2">
+              <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+              <p className="text-sm text-muted-foreground">
+                {t("loading_more_users")}
+              </p>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {!hasNextPage && peopleList.length > 0 && (
+        <div className="text-center py-4 text-muted-foreground text-sm">
+          {t("end_of_users_list")}
+        </div>
+      )}
     </div>
   );
 }

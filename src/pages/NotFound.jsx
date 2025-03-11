@@ -10,7 +10,6 @@ export default function NotFound() {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-[70vh] text-center px-4">
-      {/* 404 Number */}
       <div className="relative">
         <h1 className="text-9xl font-extrabold tracking-tight text-primary/20">
           404
@@ -35,7 +34,6 @@ export default function NotFound() {
         </div>
       </div>
 
-      {/* Message */}
       <h2 className="mt-8 text-2xl font-bold tracking-tight md:text-3xl">
         {t("page_not_found")}
       </h2>
@@ -43,7 +41,6 @@ export default function NotFound() {
         {t("page_not_found_message")}
       </p>
 
-      {/* Action Buttons */}
       <div className="mt-10 flex flex-col sm:flex-row gap-4">
         <Button
           onClick={() => navigate(-1)}
