@@ -1,6 +1,6 @@
 # Connectify - User Directory App
 
-![Connectify Screenshot](./screenshot.png)
+![Connectify Screenshot](./public/screenshot.png)
 
 ## 📌 Project Overview
 
