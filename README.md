@@ -12,7 +12,7 @@ A responsive React application that showcases a user directory with detailed pro
 
 - **User Authentication**
 
-  - Login functionality with JWT token handling
+  - Login functionality with access token handling
   - User profile management
   - Persistent sessions using localStorage
 
@@ -41,7 +41,7 @@ A responsive React application that showcases a user directory with detailed pro
 
 ## 🛠️ Technical Stack
 
-- **Frontend Framework**: React 18 with Vite
+- **Frontend Framework**: React 19 with Vite
 - **Routing**: React Router v6
 - **API State Management**: TanStack React Query (formerly React Query)
 - **UI Components**: ShadcN UI (based on Radix UI)
